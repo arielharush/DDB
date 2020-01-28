@@ -2,6 +2,7 @@ package com.pjct.ddb;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.os.Vibrator;
 import android.text.TextUtils;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
@@ -292,6 +294,8 @@ public class QrCodeActivity extends Activity implements Callback, OnClickListene
             Intent intent = new Intent();
             intent.putExtra("Qr", value);
             setResult(1, intent);
+            Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            v.vibrate(200);
             finish();
         }
     }

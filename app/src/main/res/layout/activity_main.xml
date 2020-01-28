@@ -132,7 +132,7 @@
                     android:id="@+id/TextInputEditTextPhoneNumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="10"
+                    android:maxLength="14"
                     android:focusedByDefault="false"
                     android:focusable="true"
                     android:drawableStart="@drawable/ic_phone_black_24dp"

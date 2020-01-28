@@ -15,8 +15,8 @@ import java.util.List;
 
 public class ParcelsHistory extends AppCompatActivity{
 
-    public RecyclerView studentsRecycleView;
-    private List<Parcel> students;
+    public RecyclerView parcelsRecycleView;
+    private List<Parcel> parcels;
 
 
     public void Toasts(){
@@ -28,19 +28,20 @@ public class ParcelsHistory extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parcels_history);
 
-        studentsRecycleView = findViewById(R.id.studentsRecycleView);
-        studentsRecycleView.setHasFixedSize(true);
-        studentsRecycleView.setLayoutManager(new LinearLayoutManager(this));
 
 
+        parcelsRecycleView = findViewById(R.id.studentsRecycleView);
+        parcelsRecycleView.setHasFixedSize(true);
+        parcelsRecycleView.setLayoutManager(new LinearLayoutManager(this));
         Firebase_DBManager.notifyToParcelList(new Firebase_DBManager.NotifyDataChange<List<Parcel>>() {
             @Override
             public void OnDataChanged(List<Parcel> obj) {
-                if (studentsRecycleView.getAdapter() == null) {
-                    students = obj;
-                    studentsRecycleView.setAdapter(new StudentsRecycleViewAdapter(ParcelsHistory.this, students));
+                if (parcelsRecycleView.getAdapter() == null) {
+                    parcels = obj;
+                    parcelsRecycleView.setAdapter(new StudentsRecycleViewAdapter(ParcelsHistory.this, parcels));
                 } else
-                    studentsRecycleView.getAdapter().notifyDataSetChanged();
+
+                    parcelsRecycleView.getAdapter().notifyDataSetChanged();
             }
 
             @Override

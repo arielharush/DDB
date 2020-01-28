@@ -113,8 +113,6 @@ public class Firebase_DBManager {
                     Parcel.setKey((id));
                     ParcelList.add(0,Parcel);
                   //  ParcelList.add(Parcel);
-
-
                     notifyDataChange.OnDataChanged(ParcelList);
                 }
 
@@ -123,8 +121,6 @@ public class Firebase_DBManager {
                     Parcel Parcel = dataSnapshot.getValue(Parcel.class);
                     String id = (dataSnapshot.getKey());
                     Parcel.setKey(id);
-
-
                     for (int i = 0; i < ParcelList.size(); i++) {
                         if (ParcelList.get(i).getKey().equals(id)) {
                             ParcelList.set(i, Parcel);

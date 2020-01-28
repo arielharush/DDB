@@ -22,11 +22,47 @@ public class Parcel {
     PackStatus packStatus;
     String deliveryman_phone;
     Date dateReceived;
+    double longitudeReceiver;
+    float distance;
+    double latitudeReceiver;
+    public double getLongitudeReceiver() {
+        return longitudeReceiver;
+    }
+
+    public void setLongitudeReceiver(double longitudeReceiver) {
+        this.longitudeReceiver = longitudeReceiver;
+    }
+
+    public double getLatitudeReceiver() {
+        return latitudeReceiver;
+    }
+
+    public void setLatitudeReceiver(double latitudeReceiver) {
+        this.latitudeReceiver = latitudeReceiver;
+    }
 
 
 
 
 
+
+
+
+
+    public Parcel(Parcel parcel){
+        this.packType = parcel.packType;
+        this.breakable = parcel.breakable;
+        this.packageWeight = parcel.packageWeight;
+        this.longitude = parcel.longitude;
+        this.latitude = parcel.latitude;
+        this.receiver_phone = parcel.receiver_phone;
+        this.packStatus = parcel.packStatus;
+        this.deliveryman_phone = parcel.deliveryman_phone;
+        this.distance = parcel.distance;
+        this.longitudeReceiver = parcel.longitudeReceiver;
+        this.latitudeReceiver = parcel.latitudeReceiver;
+        this.key = parcel.key;
+    }
 
     public double getLongitude() {
         return longitude;
@@ -123,18 +159,6 @@ public class Parcel {
         this.dateReceived = null ;
     }
 
-    public Parcel(Parcel parcel){
-        this.key = parcel.key;
-        this.packType = parcel.packType;
-        this.breakable = parcel.breakable;
-        this.packageWeight = parcel.packageWeight;
-        this.location =  new Location(parcel.location);
-        this.receiver_phone = parcel.receiver_phone;
-        this.deliveryman_phone = parcel.deliveryman_phone;
-        this.dateSend = new Date(parcel.dateSend.getTime());
-        this.dateReceived = new Date(parcel.dateReceived.getTime());
-        this.packStatus =  parcel.packStatus;
-}
 
     public Parcel() {
        this.key = null;

@@ -12,6 +12,10 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.pjct.ddb.Entities.Parcel;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,6 +35,7 @@ import com.pjct.ddb.Entities.Enums.*;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.pjct.ddb.Entities.User;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -71,6 +76,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getLocation();
     }
 
+
+     void pushTofirebase(final Parcel parcel){
+         DatabaseReference rootRef = FirebaseDatabase.getInstance("https://dblogisticare.firebaseio.com/").getReference("users");
+         //rootRef.child("users");
+
+         rootRef = rootRef.child(parcel.getReceiver_phone());
+         rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
+             @Override
+             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                 Button sendButton = (Button)findViewById(R.id.sendButton);
+                 if (dataSnapshot.getValue() == null) {
+                   Toast.makeText(getApplicationContext(),"Error, user not found",Toast.LENGTH_SHORT).show();
+                   sendButton.setClickable(true);
+                 } else {
+
+                     User user = dataSnapshot.getValue(User.class);
+                     Parcel parcel1 = new Parcel(parcel);
+                     parcel1.setLongitudeReceiver(user.getAddress().getLongitude());
+                     parcel1.setLatitudeReceiver(user.getAddress().getLatitude());
+                     ParcelsRef.child(parcel1.getKey()).setValue(parcel1);
+                     clearFileds();
+
+
+                     // send to firebase
+                     sendButton.setClickable(true);
+                     // msg to user that parcel added successfuly to the system
+                     Toast.makeText(getApplicationContext(), "The parcel added successfully.", Toast.LENGTH_SHORT).show();;
+
+                 }
+             }
+
+             @Override
+             public void onCancelled(@NonNull DatabaseError databaseError) {
+
+             }
+         });
+
+
+
+     }
+
+
     @Override
     public void onClick(View v) {
         // check if the number is valid
@@ -84,17 +131,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Parcel parcel = getParcelFromView();
         String key = ParcelsRef.push().getKey();
         parcel.setKey(key);
-        ParcelsRef.child(key).setValue(parcel);
+      pushTofirebase(parcel);
 
         ///  clear the feilds
-        clearFileds();
-
-        // send to firebase
-        sendButton.setClickable(true);
-
-        // msg to user that parcel added successfuly to the system
-        Toast.makeText(getApplicationContext(), "The parcel added successfully.", Toast.LENGTH_SHORT).show();;
-    }
+        }
 
 
     private  void clearFileds(){
@@ -242,6 +282,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         parcel.setLongitude(parcelLocation.getLongitude());
         parcel.setLatitude(parcelLocation.getLatitude());
         parcel.setDateReceived(new Date());
+        parcel.setDeliveryman_phone("");
         return parcel;
 
     }
